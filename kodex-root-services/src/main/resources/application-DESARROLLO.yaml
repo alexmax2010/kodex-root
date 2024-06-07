@@ -1,0 +1,48 @@
+logging:
+  #pattern:
+  #console: %d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
+  level:
+    root: INFO
+---
+keycloak:
+  enabled: true
+  bearer-only: true
+  auth-server-url: https://kckckpreprd-adm.krugercorp.com
+  resource: kodex-ws
+  realm: kcorporative
+  public-client: true
+  principal-attribute: preferred_username
+  ssl-required: external
+  #credentials:
+  #secret = 11111111-1111-1111-1111-111111111111
+  use-resource-role-mappings: true
+  allowAnyHostname: true
+---
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driverClassName: org.postgresql.Driver
+    url: ${DB_JDBC_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      connectionTimeout: 60000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximumPoolSize: 20
+      #connectionTestQuery: SELECT 1 FROM SYSIBM.SYSDUMMY1
+  jpa:
+    showSql: true
+    properties:
+      format_sql: false
+      hibernate:
+        dialect: ec.com.kruger.spring.orm.hibernate.dialect.DB2i7Dialect
+        id:
+          batch_versioned_data: true
+          new_generator_mappings: false # true for increment by 50 or (allocationSize property in mapping), false for increment one by one
+        jdbc:
+          batch_size: 50
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false

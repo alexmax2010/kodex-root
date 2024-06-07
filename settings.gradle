@@ -1,0 +1,16 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+rootProject.name = 'kodex-root-root'
+
+include ':kodex-root-vo'
+include ':kodex-root-client'
+include ':kodex-root-core'
+include ':kodex-root-services'
+
+
+
+
+

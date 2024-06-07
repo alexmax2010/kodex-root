@@ -1,0 +1,40 @@
+dependencies {
+    api project(":kodex-root-client")
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation('org.hibernate:hibernate-entitymanager')
+    implementation('org.springframework.data:spring-data-jpa')
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-orm-jpa-hibernate5'
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-service-jpa'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //DB
+    implementation 'org.postgresql:postgresql'
+    implementation group: 'org.apache.commons', name: 'commons-lang3'
+
+    //-------------------------TEST-----------------------
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testImplementation 'org.springframework:spring-test'
+    testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
+    testImplementation 'com.zaxxer:HikariCP'
+    testImplementation group: 'com.h2database', name: 'h2'
+    testImplementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-boot-test'
+    testImplementation("org.mockito:mockito-core")
+
+  //-------------------------INTEGRATION TEST-----------------------
+    integrationTestCompileOnly 'org.projectlombok:lombok'
+    integrationTestAnnotationProcessor 'org.projectlombok:lombok'
+    integrationTestImplementation 'org.springframework:spring-test'
+    integrationTestImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
+    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    integrationTestImplementation 'com.github.javafaker:javafaker:1.0.2'
+    integrationTestImplementation 'com.zaxxer:HikariCP'
+    integrationTestImplementation group: 'com.h2database', name: 'h2'
+    integrationTestImplementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-boot-test'
+}

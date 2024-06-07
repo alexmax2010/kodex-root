@@ -1,0 +1,10 @@
+//Script contain plugin to generate q classes, it added lombok dependencies.
+apply from: "${serverCodeUrl}querydsl.gradle?raw"
+dependencies {
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-validation'
+    implementation group: 'javax.validation', name: 'validation-api'
+    implementation 'org.springframework:spring-web'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations'
+    compileOnly group: 'ec.com.kruger', name: 'fwk-utilitario-spring-orm'
+
+}

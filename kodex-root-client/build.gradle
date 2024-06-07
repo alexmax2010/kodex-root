@@ -1,0 +1,33 @@
+//Script contain plugin to generate q classes, it added lombok dependencies.
+apply from: "${serverCodeUrl}querydsl.gradle?raw"
+
+dependencies {
+    api project(":kodex-root-vo")
+
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-orm'
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-service'
+    implementation group: 'ec.com.smx.frameworkv2', name: 'fwk-security-client'
+
+    // Keycloak Util to get token authorization
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-sso-keycloak'
+    //SecurityKeycloakUtil
+    compileOnly group: 'ec.com.kruger', name: 'fwk-utilitario-security-sso-spring-boot-2'
+
+    implementation 'org.springframework.data:spring-data-commons'
+    implementation 'commons-beanutils:commons-beanutils'
+
+    //compileOnly 'org.projectlombok:lombok'
+    //annotationProcessor 'org.projectlombok:lombok'
+    //Compile is only for querydsl compatibility
+    //implementation("com.querydsl:querydsl-core")
+    //implementation("javax.persistence:javax.persistence-api")
+    //implementation("javax.annotation:javax.annotation-api")
+    //implementation group: 'ec.com.kruger', name: 'fwk-utilitario-validation'
+
+    //-------------------------TEST-----------------------
+    testImplementation group: 'junit', name: 'junit'
+    testImplementation group: 'org.mockito', name: 'mockito-core'
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
+    testImplementation 'org.mockito:mockito-inline'
+    testImplementation group: 'ec.com.kruger', name: 'fwk-utilitario-security-sso-spring-boot-2'
+}

@@ -1,0 +1,67 @@
+dependencyManagement {
+    dependencies {
+
+        dependency("ec.com.kruger:fwk-utilitario-sso-keycloak:1.7.0-RELEASE")
+
+        dependency('org.yaml:snakeyaml:1.33')
+        dependency('com.google.code.gson:gson:2.8.9')
+        dependency('org.apache.tomcat.embed:tomcat-embed-websocket:9.0.43')
+        dependency('com.github.jknack:handlebars:4.2.1')
+        dependency("org.hibernate:hibernate-core:5.4.24.Final")
+
+        //Validation
+        dependency("ec.com.kruger:fwk-utilitario-validation:1.1.0-RELEASE")
+        dependency("javax.validation:validation-api:2.0.1.Final")
+
+        //Log
+        dependencySet(group:'org.apache.logging.log4j', version: '2.19.0') {
+            entry 'log4j-core'
+            entry 'log4j-1.2-api'
+            entry 'log4j-jcl'
+            entry 'log4j-api'
+        }
+
+        // Documentation
+        dependency("org.springdoc:springdoc-openapi-ui:1.6.14")
+        dependency("org.springdoc:springdoc-openapi-webmvc-core:1.6.14")
+
+        dependencySet(group:'com.fasterxml.jackson.core', version: '2.12.7') {
+            entry 'jackson-core'
+            entry 'jackson-annotations'
+        }
+        dependency('com.fasterxml.jackson.core:jackson-databind:2.12.7.1')
+
+        dependency('com.google.guava:guava:32.0.1-jre')
+        dependency("org.postgresql:postgresql:42.3.1")
+
+        dependencySet(group:'ec.com.kruger', version: '4.5.0-SNAPSHOT') {
+            entry 'fwk-utilitario-spring-orm'
+            entry 'fwk-utilitario-spring-orm-hibernate5'
+            entry 'fwk-utilitario-spring-orm-hibernate5-querydsl'
+            entry 'fwk-utilitario-spring-orm-jpa-hibernate5'
+            entry 'fwk-utilitario-spring-orm-sql-querydsl'
+            entry 'fwk-utilitario-spring-service'
+            entry 'fwk-utilitario-spring-service-jpa'
+            entry 'fwk-utilitario-spring-validation-spring5'
+            entry 'fwk-utilitario-spring-metric'
+            entry 'fwk-utilitario-spring-metric-spring5'
+            entry 'fwk-utilitario-spring-rest-client-spring5'
+            entry 'fwk-utilitario-spring-ws'
+            entry 'fwk-utilitario-spring-ws-spring5'
+            entry 'fwk-utilitario-spring-ws-spring5-test'
+            entry 'fwk-utilitario-spring-cache-redis-springboot2'
+            entry 'fwk-utilitario-spring-scheduling-concurrent-spring5'
+            entry 'fwk-utilitario-spring-datasourceproxy'
+            entry 'fwk-utilitario-spring-vo'
+        }
+
+        dependencySet(group:'ec.com.kruger', version: '2.3.0-SNAPSHOT') {
+            entry 'fwk-utilitario-security'
+            entry 'fwk-utilitario-security-sso-spring-boot-1'
+            entry 'fwk-utilitario-security-sso-spring-boot-2'
+            entry 'fwk-utilitario-security-sso-spring-security'
+            entry 'fwk-utilitario-security-spring-security-5'
+        }
+
+    }
+}

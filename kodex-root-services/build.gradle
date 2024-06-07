@@ -1,0 +1,49 @@
+apply from: "${serverCodeUrl}spring-boot2.gradle?raw"
+apply from: "${serverCodeUrl}docker-ws.gradle?raw"
+
+uploadArchives.enabled = false
+
+springBoot {
+    buildInfo ()
+}
+
+dependencies {
+    api project(":kodex-root-core")
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-ws-spring5'
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-metric-spring5'
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-boot-jpa'
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-service-jpa'
+    implementation 'org.springdoc:springdoc-openapi-ui'
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    implementation group: 'ec.com.kruger', name: 'fwk-utilitario-security-sso-spring-boot-2'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    //Devops
+    //providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+    runtimeOnly('org.springframework.boot:spring-boot-starter-tomcat')
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
+    implementation 'org.springframework.data:spring-data-commons'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'ec.com.kruger:fwk-utilitario-spring-ws'
+
+    //-------------------------TEST-----------------------
+    testImplementation 'org.springframework:spring-test'
+    testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
+    testImplementation 'com.zaxxer:HikariCP'
+    testImplementation group: 'com.h2database', name: 'h2'
+    testImplementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-ws-spring5-test'
+    testImplementation group: 'org.mockito', name: 'mockito-core'
+    testImplementation group: 'junit', name: 'junit'
+    //-------------------------INTEGRATION TEST-----------------------
+    integrationTestAnnotationProcessor 'org.projectlombok:lombok'
+    integrationTestCompileOnly 'org.projectlombok:lombok'
+    integrationTestImplementation group: 'ec.com.kruger', name: 'fwk-utilitario-spring-boot-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-web'
+}
