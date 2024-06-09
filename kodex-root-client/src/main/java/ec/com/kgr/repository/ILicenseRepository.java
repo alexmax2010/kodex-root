@@ -1,5 +1,6 @@
 package ec.com.kgr.repository;
 
+import java.util.List;
 import ec.com.kgr.entity.LicenseEntity;
 import ec.com.kgr.vo.LicenseVo;
 import ec.com.kgr.vo.ValidateLicenseVo;
@@ -39,4 +40,19 @@ public interface ILicenseRepository extends IQueryDslBaseRepository<LicenseEntit
      * @return boolean
      */
     boolean validate(ValidateLicenseVo request);
+
+    /**
+     * Find by user.
+     *
+     * @param request ValidateLicenseVo
+     * @return List LicenseVo
+     */
+    List<LicenseVo> findByUser(ValidateLicenseVo request);
+
+    /**
+     * update values.
+     *
+     * @param license LicenseVo
+     */
+    void updateValues(LicenseVo license);
 }

@@ -5,6 +5,7 @@ import ec.com.kgr.vo.LicenseVo;
 import ec.com.kgr.vo.ValidateLicenseVo;
 import ec.com.kgr.vo.common.FilterVo;
 import ec.com.kruger.spring.service.IBaseService;
+import ec.com.kruger.spring.vo.common.BaseResponseVo;
 import org.springframework.data.domain.Page;
 
 /**
@@ -43,8 +44,8 @@ public interface ILicenseService extends IBaseService<LicenseEntity> {
      * Validate.
      *
      * @param request ValidateLicenseVo
-     * @return boolean
+     * @return BaseResponseVo
      */
-    boolean validate(ValidateLicenseVo request);
+    BaseResponseVo validate(ValidateLicenseVo request);
 
 }

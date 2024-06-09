@@ -13,7 +13,12 @@ dependencies {
 
     //DB
     implementation 'org.postgresql:postgresql'
+
     implementation group: 'org.apache.commons', name: 'commons-lang3'
+    implementation 'ec.com.kruger:fwk-utilitario-spring-vo'
+    implementation 'org.apache.commons:commons-collections4'
+
+
 
     //-------------------------TEST-----------------------
     testAnnotationProcessor 'org.projectlombok:lombok'

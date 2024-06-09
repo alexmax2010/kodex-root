@@ -81,8 +81,7 @@ public class LicenseController extends BaseController {
     @PostMapping(path = "/validate")
     @Operation(summary = "Validate License")
     public ResponseEntity<BaseResponseVo> validate(@Valid @RequestBody ValidateLicenseVo request) {
-        return ResponseEntity.ok(
-            BaseResponseVo.builder().data(this.service.validate(request)).build());
+        return ResponseEntity.ok(this.service.validate(request));
     }
 
 }

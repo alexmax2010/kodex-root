@@ -2,6 +2,7 @@ package ec.com.kgr.repository;
 
 import static com.querydsl.core.types.Projections.bean;
 import static ec.com.kgr.entity.QLicenseEntity.licenseEntity;
+import java.util.List;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import ec.com.kgr.entity.LicenseEntity;
@@ -105,6 +106,46 @@ public class LicenseRepository extends JPAQueryDslBaseRepository<LicenseEntity> 
         JPQLQuery<String> query = from(licenseEntity).select(licenseEntity.licenseId).where(where);
         String response = query.fetchFirst();
         return StringUtils.isNotBlank(response);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<LicenseVo> findByUser(ValidateLicenseVo request) {
+        BooleanBuilder where = new BooleanBuilder();
+        where.and(licenseEntity.userId.eq(request.getUserId()));
+        where.and(licenseEntity.appId.eq(request.getAppId()));
+        if (StringUtils.isNotBlank(request.getWorkTeamId())) {
+            where.and(licenseEntity.workTeamId.eq(request.getWorkTeamId()));
+        }
+        if (StringUtils.isNotBlank(request.getStateCatalogId())) {
+            where.and(licenseEntity.stateCatalogId.eq(request.getStateCatalogId()));
+        }
+        where.and(licenseEntity.status.isTrue());
+        JPQLQuery<LicenseVo> query = from(licenseEntity).select(bean(LicenseVo.class,
+            licenseEntity.licenseId,
+            licenseEntity.workTeamId,
+            licenseEntity.appId,
+            licenseEntity.userId,
+            licenseEntity.license,
+            licenseEntity.stateCatalogId)).where(where);
+        return query.fetch();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateValues(LicenseVo license) {
+        BooleanBuilder where = new BooleanBuilder();
+        where.and(licenseEntity.licenseId.eq(license.getLicenseId()));
+        where.and(licenseEntity.workTeamId.eq(license.getWorkTeamId()));
+        where.and(licenseEntity.appId.eq(license.getAppId()));
+        where.and(licenseEntity.userId.eq(license.getUserId()));
+        updateSimpleAuth(licenseEntity).where(where)
+            .set(licenseEntity.stateCatalogId, license.getStateCatalogId())
+            .set(licenseEntity.license, license.getLicense()).execute();
     }
 
 }

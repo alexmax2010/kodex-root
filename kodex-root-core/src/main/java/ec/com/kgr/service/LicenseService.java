@@ -1,5 +1,7 @@
 package ec.com.kgr.service;
 
+import java.util.List;
+import java.util.UUID;
 import ec.com.kgr.entity.LicenseEntity;
 import ec.com.kgr.repository.ILicenseRepository;
 import ec.com.kgr.util.ProjectUtil;
@@ -7,6 +9,9 @@ import ec.com.kgr.vo.LicenseVo;
 import ec.com.kgr.vo.ValidateLicenseVo;
 import ec.com.kgr.vo.common.FilterVo;
 import ec.com.kruger.spring.service.jpa.BaseService;
+import ec.com.kruger.spring.vo.common.BaseResponseVo;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -65,8 +70,25 @@ public class LicenseService extends BaseService<LicenseEntity, ILicenseRepositor
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = true)
-    public boolean validate(ValidateLicenseVo request) {
-        return this.repository.validate(request);
+    public BaseResponseVo validate(ValidateLicenseVo request) {
+        request.setStateCatalogId("PEN");
+        if (StringUtils.isNotBlank(request.getLicense()) && StringUtils.isNotBlank(
+            request.getWorkTeamId())) {
+            request.setStateCatalogId("ACT");
+        }
+        List<LicenseVo> licenses = this.repository.findByUser(request);
+        if (CollectionUtils.isEmpty(licenses)) {
+            return BaseResponseVo.builder().code(1).message("No tiene una licencia asignada.")
+                .build();
+        }
+        LicenseVo license = licenses.iterator().next();
+        if ("ACT".equals(license.getStateCatalogId()) && StringUtils.isNotBlank(
+            license.getLicense())) {
+            return BaseResponseVo.builder().data(license).build();
+        }
+        license.setStateCatalogId("ACT");
+        license.setLicense(UUID.randomUUID().toString());
+        this.repository.updateValues(license);
+        return BaseResponseVo.builder().data(license).build();
     }
 }

@@ -22,9 +22,8 @@ public class ValidateLicenseVo {
     @NotBlankConstraint
     private String appId;
     @NotBlankConstraint
-    private String workTeamId;
-    @NotBlankConstraint
     private String userId;
-    @NotBlankConstraint
+    private String workTeamId;
     private String license;
+    private String stateCatalogId;
 }
