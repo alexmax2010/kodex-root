@@ -5,6 +5,8 @@ import ec.com.kgr.service.ILicenseService;
 import ec.com.kgr.vo.LicenseVo;
 import ec.com.kgr.vo.ValidateLicenseVo;
 import ec.com.kgr.vo.common.FilterVo;
+import ec.com.kruger.security.sso.springboot2.util.simple.KeycloakUserVo;
+import ec.com.kruger.security.sso.springboot2.util.simple.SimpleSecurityKeycloakUtil;
 import ec.com.kruger.spring.vo.common.BaseResponseVo;
 import ec.com.kruger.spring.ws.controller.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,7 +74,7 @@ public class LicenseController extends BaseController {
     }
 
     /**
-     * Validate.
+     * Validate license.
      *
      * @param request ValidateLicenseVo
      * @return BaseResponseVo
@@ -81,7 +83,10 @@ public class LicenseController extends BaseController {
     @PostMapping(path = "/validate")
     @Operation(summary = "Validate License")
     public ResponseEntity<BaseResponseVo> validate(@Valid @RequestBody ValidateLicenseVo request) {
+        KeycloakUserVo user = SimpleSecurityKeycloakUtil.getCurrentUserLogin();
+        request.setUserId(user.getUserId());
         return ResponseEntity.ok(this.service.validate(request));
     }
+
 
 }

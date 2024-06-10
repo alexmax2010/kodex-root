@@ -1,28 +1,29 @@
 package ec.com.kgr.vo;
 
+import ec.com.kgr.vo.common.BaseAuditableVo;
 import ec.com.kruger.validation.javax.constraint.NotBlankConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
- * ValidateLicenseVo.
+ * EventVo.
  *
- * @author Kruger on 6/6/2024.
+ * @author Kruger on 9/6/2024.
  * @version 1.0
  */
-
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ValidateLicenseVo {
-
+public class EventVo extends BaseAuditableVo {
+    private String eventId;
     @NotBlankConstraint
-    private String appId;
+    private String licenseId;
     private String userId;
-    private String workTeamId;
-    private String license;
-    private String stateCatalogId;
+    @NotBlankConstraint
+    private String eventType;
+    private Integer total;
 }

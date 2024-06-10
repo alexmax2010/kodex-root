@@ -25,9 +25,7 @@ public class LicenseVo {
     @NotBlankConstraint
     private String workTeamId;
     private String stateCatalogId;
-    @NotBlankConstraint
     private String userId;
-    @NotBlankConstraint
     private String license;
     private Date starDate;
     private Date endDate;

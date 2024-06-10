@@ -57,6 +57,9 @@ public class LicenseEntity extends SimpleAbstractBaseAuditableLockingIp<String> 
     @Column(name = "LICENSE")
     private String license;
 
+    @Column(name = "DEVICE")
+    private String device;
+
     @Column(name = "START_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date starDate;
