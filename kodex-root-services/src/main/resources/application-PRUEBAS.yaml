@@ -30,7 +30,7 @@ spring:
       idleTimeout: 600000
       maxLifetime: 1800000
       maximumPoolSize: 20
-      #connectionTestQuery: SELECT 1 FROM SYSIBM.SYSDUMMY1
+      connectionTestQuery: SELECT 1
   jpa:
     showSql: true
     properties:
