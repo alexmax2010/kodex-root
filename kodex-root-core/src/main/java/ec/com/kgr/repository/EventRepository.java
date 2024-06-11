@@ -2,6 +2,7 @@ package ec.com.kgr.repository;
 
 import static com.querydsl.core.types.Projections.bean;
 import static ec.com.kgr.entity.QEventEntity.eventEntity;
+import java.util.Locale;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import ec.com.kgr.entity.EventEntity;
@@ -69,7 +70,7 @@ public class EventRepository extends JPAQueryDslBaseRepository<EventEntity> impl
         where.and(eventEntity.eventId.eq(event.getEventId()));
         where.and(eventEntity.licenseId.eq(event.getLicenseId()));
         where.and(eventEntity.userId.eq(event.getUserId()));
-        where.and(eventEntity.eventType.eq(event.getEventType().toUpperCase()));
+        where.and(eventEntity.eventType.eq(event.getEventType().toUpperCase(Locale.ROOT)));
         where.and(eventEntity.status.isTrue());
         Integer total = event.getTotal() + 1;
         updateSimpleAuth(eventEntity).where(where)

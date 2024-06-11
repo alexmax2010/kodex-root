@@ -38,7 +38,7 @@ public class LicenseController extends BaseController {
 
     @Lazy
     @Autowired
-    private ILicenseService service;
+    private transient ILicenseService service;
 
     /**
      * Get list of license by filter and paginated.

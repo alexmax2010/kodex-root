@@ -3,7 +3,6 @@ package ec.com.kgr.vo;
 import ec.com.kgr.vo.common.BaseAuditableVo;
 import ec.com.kruger.validation.javax.constraint.NotBlankConstraint;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

@@ -1,0 +1,137 @@
+  {{/* Go Templates do not support variable updating, so we simulate it using dictionaries */}}
+  {{- $hasInjectionTypes := dict "hasVolume" false "hasEnvVars" false "hasIRSA" false "exposePorts" false -}}
+  {{- if .Values.envVars -}}
+  {{- $_ := set $hasInjectionTypes "hasEnvVars" true -}}
+  {{- end -}}
+  {{- $allSecrets := values .Values.secrets -}}
+  {{- range $allSecrets -}}
+  {{- if eq (index . "as") "volume" -}}
+  {{- $_ := set $hasInjectionTypes "hasVolume" true -}}
+  {{- else if eq (index . "as") "environment" -}}
+  {{- $_ := set $hasInjectionTypes "hasEnvVars" true -}}
+  {{- else if eq (index . "as") "none" -}}
+  {{- /* noop */ -}}
+  {{- else -}}
+  {{- fail printf "secrets config has unknown type: %s" (index . "as") -}}
+  {{- end -}}
+  {{- end -}}
+  {{- $allConfigMaps := values .Values.configMaps -}}
+  {{- range $allConfigMaps -}}
+  {{- if eq (index . "as") "volume" -}}
+  {{- $_ := set $hasInjectionTypes "hasVolume" true -}}
+  {{- else if eq (index . "as") "environment" -}}
+  {{- $_ := set $hasInjectionTypes "hasEnvVars" true -}}
+  {{- else if eq (index . "as") "none" -}}
+  {{- /* noop */ -}}
+  {{- else -}}
+  {{- fail printf "configMaps config has unknown type: %s" (index . "as") -}}
+  {{- end -}}
+  {{- end -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.fullname" . }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.hostAliases }}
+      hostAliases: {{- .Values.hostAliases | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if gt (len .Values.imagePullSecrets) 0 }}
+      imagePullSecrets:
+        {{- range $secretName := .Values.imagePullSecrets }}
+        - name: {{ $secretName }}
+        {{- end }}
+      {{- end }}
+      serviceAccountName: {{ include "helm.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+          {{- range $key, $portSpec := .Values.containerPorts }}
+          {{- if not $portSpec.disabled }}
+          - name: {{ $key }}
+            containerPort: {{ int $portSpec.port }}
+            protocol: {{ $portSpec.protocol }}
+          {{- end }}
+          {{- end }}
+
+          {{- if .Values.livenessProbe }}
+          livenessProbe:
+          {{ toYaml .Values.livenessProbe | nindent 12 }}
+          {{- end }}
+
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+          {{ toYaml .Values.readinessProbe | nindent 12 }}
+          {{- end }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+          {{- /* START ENV VAR LOGIC */ -}}
+          {{- if index $hasInjectionTypes "hasEnvVars" }}
+          env:
+          {{- end }}
+          {{- range $key, $value := .Values.envVars }}
+          - name: {{ $key }}
+            value: {{ quote $value }}
+          {{- end }}
+          {{- range $name, $value := .Values.configMaps }}
+          {{- if eq $value.as "environment" }}
+          {{- range $configKey, $keyEnvVarConfig := $value.items }}
+          - name: {{ required "envVarName is required on configMaps items when using environment" $keyEnvVarConfig.envVarName | quote }}
+            valueFrom:
+              configMapKeyRef:
+                name: {{ $name }}
+                key: {{ $configKey }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- range $name, $value := .Values.secrets }}
+          {{- if eq $value.as "environment" }}
+          {{- if eq $name $.Values.secret.name }}
+          {{- range $secretKey, $keyEnvVarConfig := $value.items }}
+          - name: {{ required "envVarName is required on secrets items when using environment" $keyEnvVarConfig.envVarName | quote }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $name }}
+                key: {{ $secretKey }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- /* END ENV VAR LOGIC */ -}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

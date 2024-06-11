@@ -2,6 +2,7 @@ package ec.com.kgr.service;
 
 import java.util.List;
 import java.util.UUID;
+import ec.com.kgr.common.KodexRootConstants;
 import ec.com.kgr.entity.LicenseEntity;
 import ec.com.kgr.repository.ILicenseRepository;
 import ec.com.kgr.util.ProjectUtil;
@@ -71,10 +72,10 @@ public class LicenseService extends BaseService<LicenseEntity, ILicenseRepositor
      */
     @Override
     public BaseResponseVo validate(ValidateLicenseVo request) {
-        request.setStateCatalogId("PEN");
+        request.setStateCatalogId(KodexRootConstants.PEN);
         if (StringUtils.isNotBlank(request.getLicense()) && StringUtils.isNotBlank(
             request.getWorkTeamId())) {
-            request.setStateCatalogId("ACT");
+            request.setStateCatalogId(KodexRootConstants.ACT);
         }
         List<LicenseVo> licenses = this.repository.findByUser(request);
         if (CollectionUtils.isEmpty(licenses)) {
@@ -82,11 +83,11 @@ public class LicenseService extends BaseService<LicenseEntity, ILicenseRepositor
                 .build();
         }
         LicenseVo license = licenses.iterator().next();
-        if ("ACT".equals(license.getStateCatalogId()) && StringUtils.isNotBlank(
+        if (KodexRootConstants.ACT.equals(license.getStateCatalogId()) && StringUtils.isNotBlank(
             license.getLicense())) {
             return BaseResponseVo.builder().data(license).build();
         }
-        license.setStateCatalogId("ACT");
+        license.setStateCatalogId(KodexRootConstants.ACT);
         license.setLicense(UUID.randomUUID().toString());
         this.repository.updateValues(license);
         return BaseResponseVo.builder().data(license).build();

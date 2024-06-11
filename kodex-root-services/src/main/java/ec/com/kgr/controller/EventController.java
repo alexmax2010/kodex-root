@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Validated
 @RestController
-@RequestMapping("/api/public/v1/event")
+@RequestMapping("/api/v1/event")
 @Lazy
 @Slf4j
 @Tag(name = "Event", description = "The Event API")
@@ -35,7 +35,7 @@ public class EventController extends BaseController {
 
     @Lazy
     @Autowired
-    private IEventService service;
+    private transient IEventService service;
 
     /**
      * Save event.
@@ -47,8 +47,8 @@ public class EventController extends BaseController {
     @PostMapping(path = "")
     @Operation(summary = "Save Event")
     public ResponseEntity<BaseResponseVo> save(@Valid @RequestBody EventVo request) {
-        //KeycloakUserVo user = SimpleSecurityKeycloakUtil.getCurrentUserLogin();
-        //request.setUserId(user.getUserId());
+        KeycloakUserVo user = SimpleSecurityKeycloakUtil.getCurrentUserLogin();
+        request.setUserId(user.getUserId());
         this.service.save(request);
         return ResponseEntity.ok(BaseResponseVo.builder().data(request).build());
     }

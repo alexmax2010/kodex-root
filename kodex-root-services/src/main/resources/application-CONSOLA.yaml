@@ -26,9 +26,12 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.5.16:31407/kode-x
-    username: kodigoxusradm
-    password: K0D1goxadm2o24
+    #url: jdbc:postgresql://192.168.5.16:31407/kode-x
+    #username: kodigoxusradm
+    #password: K0D1goxadm2o24
+    url: jdbc:postgresql://localhost:5433/kode-x
+    username: postgres
+    password: admin
     hikari:
       connectionTimeout: 60000
       idleTimeout: 600000

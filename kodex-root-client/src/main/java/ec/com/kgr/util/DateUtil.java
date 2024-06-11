@@ -32,6 +32,11 @@ public final class DateUtil {
         return Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
+    /**
+     * Start date.
+     *
+     * @return Date
+     */
     public static Date startDate() {
         YearMonth currentYearMonth = YearMonth.now();
         LocalDate firstDayOfMonth = currentYearMonth.atDay(1);
@@ -40,6 +45,11 @@ public final class DateUtil {
         return Date.from(firstDayOfMonthWithTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
+    /**
+     * End date.
+     *
+     * @return Date
+     */
     public static Date endDate() {
         YearMonth currentYearMonth = YearMonth.now();
         LocalDate lastDayOfMonth = currentYearMonth.atEndOfMonth();

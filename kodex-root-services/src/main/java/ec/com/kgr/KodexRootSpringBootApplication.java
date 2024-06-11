@@ -49,7 +49,7 @@ public class KodexRootSpringBootApplication extends SpringBootServletInitializer
     WebMvcConfigurer {
 
     @Autowired
-    private BuildProperties buildProperties;
+    private transient BuildProperties buildProperties;
 
     /**
      * Main to run app.

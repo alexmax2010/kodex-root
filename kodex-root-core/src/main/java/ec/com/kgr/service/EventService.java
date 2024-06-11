@@ -1,6 +1,5 @@
 package ec.com.kgr.service;
 
-import java.util.Date;
 import ec.com.kgr.entity.EventEntity;
 import ec.com.kgr.repository.IEventRepository;
 import ec.com.kgr.util.ProjectUtil;
@@ -48,10 +47,6 @@ public class EventService extends BaseService<EventEntity, IEventRepository> imp
         if (null == response) {
             EventEntity eventEntity = ProjectUtil.convert(event, EventEntity.class);
             eventEntity.setTotal(1);
-            eventEntity.setCreatedByUser(eventEntity.getUserId());
-            eventEntity.setCreatedDate(new Date());
-            eventEntity.setStatus(true);
-            eventEntity.setCreatedFromIp("0.0.0.0");
             this.repository.save(eventEntity);
         } else {
             this.repository.updateValues(response);
