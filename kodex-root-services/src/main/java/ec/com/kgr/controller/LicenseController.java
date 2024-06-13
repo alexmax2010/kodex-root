@@ -65,6 +65,8 @@ public class LicenseController extends BaseController {
     @PostMapping(path = "")
     @Operation(summary = "Save License")
     public ResponseEntity<BaseResponseVo> save(@Valid @RequestBody LicenseVo request) {
+        KeycloakUserVo user = SimpleSecurityKeycloakUtil.getCurrentUserLogin();
+        request.setUserId(user.getUserId());
         if (this.service.exist(request)) {
             return ResponseEntity.ok()
                 .body(BaseResponseVo.builder().code(1).build());

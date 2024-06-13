@@ -122,6 +122,9 @@ public class LicenseRepository extends JPAQueryDslBaseRepository<LicenseEntity> 
         if (StringUtils.isNotBlank(request.getStateCatalogId())) {
             where.and(licenseEntity.stateCatalogId.eq(request.getStateCatalogId()));
         }
+        if (StringUtils.isNotBlank(request.getDevice())) {
+            where.and(licenseEntity.device.eq(request.getDevice()));
+        }
         where.and(licenseEntity.status.isTrue());
         JPQLQuery<LicenseVo> query = from(licenseEntity).select(bean(LicenseVo.class,
             licenseEntity.licenseId,
@@ -145,7 +148,8 @@ public class LicenseRepository extends JPAQueryDslBaseRepository<LicenseEntity> 
         where.and(licenseEntity.userId.eq(license.getUserId()));
         updateSimpleAuth(licenseEntity).where(where)
             .set(licenseEntity.stateCatalogId, license.getStateCatalogId())
-            .set(licenseEntity.license, license.getLicense()).execute();
+            .set(licenseEntity.license, license.getLicense())
+            .set(licenseEntity.device, license.getDevice()).execute();
     }
 
 }

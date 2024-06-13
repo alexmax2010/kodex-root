@@ -25,4 +25,5 @@ public class ValidateLicenseVo {
     private String workTeamId;
     private String license;
     private String stateCatalogId;
+    private String device;
 }

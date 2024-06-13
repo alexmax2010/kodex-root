@@ -53,7 +53,7 @@ public class LicenseService extends BaseService<LicenseEntity, ILicenseRepositor
     @Override
     public void save(LicenseVo license) {
         LicenseEntity licenseEntity = ProjectUtil.convert(license, LicenseEntity.class);
-        licenseEntity.setStateCatalogId("PEN");
+        licenseEntity.setStateCatalogId(KodexRootConstants.PEN);
         this.repository.save(licenseEntity);
         license.setLicenseId(licenseEntity.getLicenseId());
     }
@@ -72,10 +72,13 @@ public class LicenseService extends BaseService<LicenseEntity, ILicenseRepositor
      */
     @Override
     public BaseResponseVo validate(ValidateLicenseVo request) {
+        String device = request.getDevice();
         request.setStateCatalogId(KodexRootConstants.PEN);
         if (StringUtils.isNotBlank(request.getLicense()) && StringUtils.isNotBlank(
             request.getWorkTeamId())) {
             request.setStateCatalogId(KodexRootConstants.ACT);
+        } else {
+            request.setDevice(null);
         }
         List<LicenseVo> licenses = this.repository.findByUser(request);
         if (CollectionUtils.isEmpty(licenses)) {
@@ -89,6 +92,7 @@ public class LicenseService extends BaseService<LicenseEntity, ILicenseRepositor
         }
         license.setStateCatalogId(KodexRootConstants.ACT);
         license.setLicense(UUID.randomUUID().toString());
+        license.setDevice(device);
         this.repository.updateValues(license);
         return BaseResponseVo.builder().data(license).build();
     }

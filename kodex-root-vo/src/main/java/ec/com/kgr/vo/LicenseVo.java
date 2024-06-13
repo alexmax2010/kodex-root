@@ -27,6 +27,7 @@ public class LicenseVo {
     private String stateCatalogId;
     private String userId;
     private String license;
+    private String device;
     private Date starDate;
     private Date endDate;
     private AppVo app;
