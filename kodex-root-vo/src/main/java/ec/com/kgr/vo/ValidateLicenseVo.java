@@ -25,5 +25,6 @@ public class ValidateLicenseVo {
     private String workTeamId;
     private String license;
     private String stateCatalogId;
+    @NotBlankConstraint
     private String device;
 }
