@@ -1,6 +1,6 @@
 FROM gcr.io/distroless/java:11
 
-MAINTAINER Byron Cueva "bcueva@ec.krugercorp.com"
+MAINTAINER Komponentes "kcomponents@ec.krugercorp.com"
 
 ENV TZ ${TZ}
 
@@ -11,6 +11,6 @@ EXPOSE 8080
 
 WORKDIR /api
 
-COPY fkp-base-services/build/libs/*.jar /api/app.jar
+COPY kodex-root-services/build/libs/*.jar /api/app.jar
 
 CMD ["app.jar"]

@@ -118,25 +118,27 @@ tolerations: []
 
 affinity: {}
 
-configMaps: {}
+configMaps:
+  env: #name of configmap
+    environment: #set items like environment variables
+      items:
+        CURRENT_PROFILE:
+          envVarName: SPRING_PROFILES_ACTIVE
+        ENV:
+          envVarName: env
+        DOMAIN:
+          envVarName: domain
+        KODEX_JDBC_URL:
+          envVarName: DB_JDBC_URL
+        KODEX_USERNAME:
+          envVarName: DB_USERNAME
 
 envVars:
   TZ: America/Guayaquil
 
-secret:
-  name: kc-kodexdb-sct
-
 secrets:
-  kc-kodexdb-sct:
-    as: environment
-    items:
-      db_host:
-        envVarName: DB_HOST
-      db_name:
-        envVarName: DB_NAME
-      db_username:
-        envVarName: DB_USERNAME
-      db_password:
-        envVarName: DB_PASSWORD
-      db_port:
-        envVarName: DB_PORT
+  kc-kodex-sct:
+    environment: # Items set like environment variable
+      items:
+        kodex:
+          envVarName: DB_PASSWORD
